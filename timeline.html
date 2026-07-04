@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Patient Timeline - Clinical History</title>
+<!-- Google Fonts: Outfit for headlines, Public Sans for body -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;family=Public+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-secondary-fixed": "#1c2a1c",
+                "secondary-container": "#e8e5dd",
+                "secondary": "#d4af37",
+                "primary": "#1c2a1c",
+                "primary-container": "#e8e5dd",
+                "primary-fixed-dim": "#dfddd6",
+                "on-surface-variant": "#6e7a6e",
+                "surface-container-highest": "#dfddd6",
+                "on-surface": "#1a261a",
+                "surface-container-low": "#f3f2ed",
+                "surface-bright": "#faf9f6",
+                "error": "#cd5c5c",
+                "on-primary-container": "#6e7a6e",
+                "outline-variant": "#dfddd6",
+                "background": "#fbfbfa",
+                "tertiary-container": "#f6f3eb",
+                "surface": "#faf9f6",
+                "on-primary-fixed": "#1a261a",
+                "surface-variant": "#dfddd6",
+                "surface-tint": "#dfddd6",
+                "on-primary": "#1a261a",
+                "inverse-on-surface": "#faf9f6",
+                "on-primary-fixed-variant": "#6e7a6e",
+                "tertiary": "#d4af37",
+                "on-tertiary": "#1c2a1c",
+                "inverse-surface": "#1a261a",
+                "secondary-fixed": "#faf9f6",
+                "on-error-container": "#cd5c5c",
+                "on-tertiary-fixed-variant": "#b8860b",
+                "on-tertiary-container": "#8b7355",
+                "surface-container": "#e8e5dd",
+                "secondary-fixed-dim": "#dfddd6",
+                "surface-container-lowest": "#ffffff",
+                "on-background": "#1a261a",
+                "surface-container-high": "#dfddd6",
+                "primary-fixed": "#dfddd6",
+                "inverse-primary": "#dfddd6",
+                "on-secondary-fixed-variant": "#b8860b",
+                "error-container": "#fdf5f5",
+                "tertiary-fixed": "#f6f3eb",
+                "on-secondary-container": "#1a261a",
+                "outline": "#6e7a6e",
+                "tertiary-fixed-dim": "#dfddd6",
+                "surface-dim": "#dfddd6",
+                "on-secondary": "#1a261a",
+                "on-error": "#ffffff",
+                "on-tertiary-fixed": "#1a261a"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "margin-desktop": "48px",
+                "container-max": "1280px",
+                "margin-tablet": "32px",
+                "gutter": "24px",
+                "margin-mobile": "16px",
+                "unit": "4px"
+            },
+            "fontFamily": {
+                "headline-lg-mobile": ["Outfit"],
+                "headline-md": ["Outfit"],
+                "body-md": ["Public Sans"],
+                "body-sm": ["Public Sans"],
+                "label-sm": ["Public Sans"],
+                "headline-lg": ["Outfit"],
+                "body-lg": ["Public Sans"],
+                "label-md": ["Public Sans"],
+                "display-lg": ["Outfit"]
+            },
+            "fontSize": {
+                "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: repeating-linear-gradient(to bottom, transparent, transparent 4px, #c5c6cd 4px, #c5c6cd 8px);
+        }
+        @media (min-width: 768px) {
+            .timeline-line::before {
+                left: 50%;
+                margin-left: -1px;
+            }
+        }
+    </style>
+<script src="shared.js"></script>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-secondary-container selection:text-on-secondary-container pb-24">
+<!-- Top App Bar (Shared Component) -->
+<header class="fixed top-0 w-full z-50 backdrop-blur-md bg-surface/85 border-b border-outline-variant shadow-sm">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 max-w-container-max mx-auto">
+<div class="flex items-center gap-3 cursor-pointer" id="logo-nav">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="spa">spa</span>
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md font-bold text-on-surface tracking-wide" id="brand-title">MediSync</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant cursor-pointer" id="profile-avatar">
+<img class="w-full h-full object-cover" id="active-user-avatar" src=""/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Patient Hero Section -->
+<section class="mb-12 flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+<div>
+<div class="flex items-center gap-2 text-on-surface-variant mb-2 cursor-pointer hover:text-secondary transition-colors" id="back-nav">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_back">arrow_back</span>
+<span class="font-label-md text-label-md" id="back-nav-text">Back to Dashboard</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface" id="patient-name">Marcus Vane</h2>
+<div class="flex flex-wrap gap-3 mt-2">
+<span class="px-3 py-1 bg-surface-container-highest text-on-surface-variant rounded-full text-label-sm font-label-sm uppercase tracking-wider" id="patient-age-gender">Male, 45</span>
+<span class="px-3 py-1 bg-surface-container-highest text-on-surface-variant rounded-full text-label-sm font-label-sm" id="patient-id">ID: #MV-9982</span>
+<span class="px-3 py-1 bg-secondary-container/10 text-secondary border border-secondary/20 rounded-full text-label-sm font-label-sm" id="patient-status">Standard Care</span>
+</div>
+</div>
+<!-- Filters & Actions -->
+<div class="flex flex-wrap gap-3">
+<select id="specialty-filter" onchange="filterTimeline(this.value)" class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-low border border-outline-variant rounded-lg text-on-surface font-label-md cursor-pointer hover:bg-surface-container-high transition-colors focus:ring-secondary focus:border-secondary">
+    <option value="all">All Specialties</option>
+    <option value="Cardiology">Cardiology</option>
+    <option value="Endocrinology">Endocrinology</option>
+    <option value="Neurology">Neurology</option>
+    <option value="Physio">Physiotherapy</option>
+    <option value="Prescription">Prescriptions</option>
+    <option value="Follow-up Notes">Follow-up Notes</option>
+</select>
+<button id="add-record-btn" onclick="openNoteModal()" class="flex items-center gap-2 px-6 py-2.5 bg-primary text-on-primary rounded-lg font-label-md hover:opacity-90 active:scale-95 transition-all shadow-md">
+<span class="material-symbols-outlined text-xl" data-icon="add">add</span>
+                    New Record
+                </button>
+</div>
+</section>
+<!-- Timeline Container -->
+<div class="relative timeline-line" id="timeline-flow">
+<!-- Populate entries dynamically -->
+</div>
+</main>
+<!-- Bottom Navigation Bar (Shared Component) -->
+<nav class="fixed bottom-0 w-full z-50 backdrop-blur-md bg-surface/85 border-t border-outline-variant shadow-lg md:hidden">
+<div class="flex justify-around items-center h-20 pb-safe px-4">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 transition-transform active:scale-90" id="bottom-home-btn" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-5 py-1 transition-transform active:scale-90" href="timeline.html">
+<span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+<span class="font-label-sm text-label-sm mt-1">Timeline</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 transition-transform active:scale-90" href="alerts.html">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+<span class="font-label-sm text-label-sm mt-1">Alerts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 transition-transform active:scale-90" href="index.html">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-sm text-label-sm mt-1">Logout</span>
+</a>
+</div>
+</nav>
+
+<!-- Add Clinical Note Modal -->
+<div id="note-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden backdrop-blur-sm">
+  <div class="bg-surface-container-lowest border border-outline-variant p-6 rounded-2xl w-full max-w-lg shadow-xl space-y-6 mx-4">
+    <div class="flex justify-between items-center border-b border-outline-variant pb-4">
+      <h3 class="font-headline-md text-on-surface flex items-center gap-2">
+        <span class="material-symbols-outlined text-secondary">edit_note</span>
+        Add Clinical Note / Record
+      </h3>
+      <button onclick="closeNoteModal()" class="text-outline hover:text-on-surface">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <form id="noteForm" onsubmit="saveNote(event)" class="space-y-4">
+      <div class="space-y-2">
+        <label class="font-label-md text-on-surface-variant block">Category / Specialty</label>
+        <select id="note-specialty" class="w-full p-3 bg-surface-bright border border-outline-variant rounded-xl focus:border-secondary outline-none transition-all">
+          <option value="Cardiology">Cardiology</option>
+          <option value="Endocrinology">Endocrinology</option>
+          <option value="Neurology">Neurology</option>
+          <option value="Physio">Physiotherapy</option>
+          <option value="Follow-up Notes">Follow-up Notes</option>
+        </select>
+      </div>
+      <div class="space-y-2">
+        <label class="font-label-md text-on-surface-variant block">Record Title</label>
+        <input id="note-title" class="w-full p-3 bg-surface-bright border border-outline-variant rounded-xl focus:border-secondary outline-none transition-all" placeholder="e.g. ECG stress test or General summary" type="text" required/>
+      </div>
+      <div class="space-y-2">
+        <label class="font-label-md text-on-surface-variant block">Observations & Description</label>
+        <textarea id="note-desc" class="w-full p-3 bg-surface-bright border border-outline-variant rounded-xl focus:border-secondary outline-none transition-all resize-none" placeholder="Provide details here..." rows="4" required></textarea>
+      </div>
+      <div class="flex gap-4 pt-2">
+        <button type="button" onclick="closeNoteModal()" class="flex-1 py-3 border border-outline text-on-surface-variant font-label-md rounded-xl hover:bg-surface-container-low transition-colors">
+          Cancel
+        </button>
+        <button type="submit" class="flex-1 py-3 bg-primary text-on-primary font-label-md rounded-xl hover:opacity-90 transition-opacity">
+          Save Record
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+    const patientId = getActivePatientId();
+    const patient = getPatient(patientId);
+    const user = getActiveUser();
+
+    // Setup navigation
+    const homeUrl = user.role === 'doctor' ? 'doctor.html' : 'patient.html';
+    document.getElementById('logo-nav').onclick = () => location.href = homeUrl;
+    document.getElementById('back-nav').onclick = () => location.href = homeUrl;
+    document.getElementById('bottom-home-btn').href = homeUrl;
+
+    // Doctor profile image or Patient profile image
+    if (user.role === 'doctor') {
+        document.getElementById('active-user-avatar').src = "https://lh3.googleusercontent.com/aida-public/AB6AXuC9vkc_Rn_JbVgb9HyoFs5gZFS54hn50jHlBY2-q0Y0l2R8YDV4wRTC9_R7VKU2dN_Vx_4EMUABMhlDO9CwX6htlCoKNCK6mtl5LBo0hDg54VERIfrq7A7m0uUn2tTK3Di6CTGjpTGmWxB1aqU6Ub_kqPWCIZ_p_jDmAc9pv_V9yeheNL7i_Rse5jXX-pD71wSw-TzKueSii0aFL627zd0SdLe4EzB3ZsYJq7Gl52_aHhSBFqDzKxYJig";
+        document.getElementById('profile-avatar').onclick = () => location.href = 'doctor.html';
+    } else {
+        document.getElementById('active-user-avatar').src = patient.image;
+        document.getElementById('profile-avatar').onclick = () => location.href = 'patient.html';
+        // Hide "Add Record" button for patients
+        document.getElementById('add-record-btn').classList.add('hidden');
+
+        // Apply Aura wellness translations dynamically
+        document.getElementById('brand-title').innerText = "Aura";
+        document.getElementById('back-nav-text').innerText = "Back to Center";
+        
+        const filterSelect = document.getElementById('specialty-filter');
+        if (filterSelect) {
+            filterSelect.options[0].text = "All Dimensions";
+            filterSelect.options[1].text = "Rhythm Support";
+            filterSelect.options[2].text = "Metabolic Equilibrium";
+            filterSelect.options[3].text = "Mind Calibration";
+            filterSelect.options[4].text = "Movement & Strength";
+            filterSelect.options[5].text = "Daily Routine Elements";
+            filterSelect.options[6].text = "Advisor Consultation Notes";
+        }
+
+        // Apply bottom mobile nav translations
+        const mobileNav = document.querySelector('nav');
+        if (mobileNav) {
+            mobileNav.innerHTML = `
+                <div class="flex justify-around items-center h-20 pb-safe px-4">
+                <a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 transition-transform active:scale-90" id="bottom-home-btn" href="patient.html">
+                <span class="material-symbols-outlined" data-icon="spa">spa</span>
+                <span class="font-label-sm text-[10px] mt-1">Center</span>
+                </a>
+                <a class="flex flex-col items-center justify-center bg-secondary-container text-primary rounded-full px-5 py-1 transition-transform active:scale-90 font-semibold" href="timeline.html">
+                <span class="material-symbols-outlined" data-icon="local_activity" style="font-variation-settings: 'FILL' 1;">local_activity</span>
+                <span class="font-label-sm text-[10px] mt-1">Journey</span>
+                </a>
+                <a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 transition-transform active:scale-90" href="alerts.html">
+                <span class="material-symbols-outlined" data-icon="tune">tune</span>
+                <span class="font-label-sm text-[10px] mt-1">Refinements</span>
+                </a>
+                <a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 transition-transform active:scale-90" href="index.html">
+                <span class="material-symbols-outlined" data-icon="power_settings_new">power_settings_new</span>
+                <span class="font-label-sm text-[10px] mt-1">Disconnect</span>
+                </a>
+                </div>
+            `;
+        }
+    }
+
+    // Populate patient summary details
+    document.getElementById('patient-name').innerText = patient.name;
+    document.getElementById('patient-age-gender').innerText = `${patient.gender}, ${patient.age}`;
+    document.getElementById('patient-id').innerText = `ID: #${patient.id}`;
+    document.getElementById('patient-status').innerText = patientId === 'SJ-2941-X' ? 'Critical Care' : 'Standard Care';
+
+    // Populate and render Timeline Flow
+    let currentFilter = 'all';
+
+    function renderTimeline() {
+        const timelineFlow = document.getElementById('timeline-flow');
+        timelineFlow.innerHTML = '';
+
+        const entries = patient.timeline;
+        
+        let counter = 0;
+        entries.forEach((item, idx) => {
+            if (currentFilter !== 'all' && !item.specialty.toLowerCase().includes(currentFilter.toLowerCase())) {
+                return;
+            }
+            
+            counter++;
+            const row = document.createElement('div');
+            // Alternating layouts for desktop (left / right)
+            const isLeft = counter % 2 === 1;
+            
+            row.className = `relative flex flex-col md:flex-row gap-8 mb-12 group ${isLeft ? '' : 'md:flex-row-reverse'}`;
+
+            // Bullet icon and colors
+            let bulletColor = 'bg-outline-variant';
+            let bulletIcon = 'sticky_note_2';
+            
+            const spec = item.specialty.toLowerCase();
+            if (spec.includes('cardio')) {
+                bulletColor = 'bg-error-container text-error';
+                bulletIcon = 'favorite';
+            } else if (spec.includes('endo') || spec.includes('science')) {
+                bulletColor = 'bg-secondary-container text-on-secondary-container';
+                bulletIcon = 'science';
+            } else if (spec.includes('physio')) {
+                bulletColor = 'bg-secondary-container text-on-secondary-container';
+                bulletIcon = 'fitness_center';
+            } else if (spec.includes('neuro') || spec.includes('psych')) {
+                bulletColor = 'bg-surface-container-highest text-on-surface';
+                bulletIcon = 'psychology';
+            } else if (spec.includes('presc')) {
+                bulletColor = 'bg-primary text-white';
+                bulletIcon = 'medication';
+            }
+
+            // Abnormal alert pill
+            let alertBadgeHtml = '';
+            if (item.abnormal) {
+                const labelText = user.role === 'patient' ? 'Needs Attention' : 'Abnormal';
+                alertBadgeHtml = `
+                    <div class="flex items-center gap-1 text-on-tertiary-container bg-tertiary-fixed-dim/30 px-2 py-1 rounded">
+                        <span class="material-symbols-outlined text-sm" data-icon="warning">warning</span>
+                        <span class="text-[10px] font-bold uppercase">${labelText}</span>
+                    </div>
+                `;
+            } else {
+                alertBadgeHtml = `<span class="px-2 py-1 bg-surface-container text-on-surface-variant rounded text-[10px] font-bold uppercase tracking-tighter">Completed</span>`;
+            }
+
+            // PDF/Attachment Box
+            let attachmentHtml = '';
+            if (item.file) {
+                attachmentHtml = `
+                    <div class="flex items-center gap-4 p-3 bg-surface-container-low rounded-lg border border-outline-variant mt-4">
+                        <span class="material-symbols-outlined text-on-surface-variant" data-icon="description">description</span>
+                        <div class="flex-1">
+                            <p class="font-label-sm text-on-surface text-body-sm">${item.file}</p>
+                            <p class="text-[10px] text-on-surface-variant">${item.fileSize || '2.4 MB'} • Diagnostic Image Report</p>
+                        </div>
+                        <span class="material-symbols-outlined text-secondary cursor-pointer" data-icon="download" onclick="alert('Downloading attachment...')">download</span>
+                    </div>
+                `;
+            }
+
+            // Translate clinical categories and descriptions dynamically for patients
+            let displayTitle = item.title;
+            let displayDesc = item.desc;
+            let displaySpecialty = item.specialty;
+            let displayDoctor = item.doctor;
+
+            if (user.role === 'patient') {
+                if (displaySpecialty.toLowerCase().includes('cardio')) displaySpecialty = "Rhythm Support";
+                else if (displaySpecialty.toLowerCase().includes('endo')) displaySpecialty = "Metabolic Equilibrium";
+                else if (displaySpecialty.toLowerCase().includes('neuro')) displaySpecialty = "Mind Calibration";
+                else if (displaySpecialty.toLowerCase().includes('physio')) displaySpecialty = "Movement & Strength";
+                else if (displaySpecialty.toLowerCase().includes('presc')) displaySpecialty = "Daily Alignment";
+
+                if (displayDoctor.includes("Dr. Sharma")) displayDoctor = "Advisor Dr. Sharma";
+                else if (displayDoctor.includes("Dr. Mehta")) displayDoctor = "Advisor Dr. Mehta";
+                else if (displayDoctor.includes("Dr. Johnson")) displayDoctor = "Wellness Coach Johnson";
+
+                if (displayTitle.toLowerCase().includes('prescription') || displayTitle.toLowerCase().includes('prescribe')) {
+                    displayTitle = "Daily Supplement Element Added";
+                } else if (displayTitle.toLowerCase().includes('echocardiogram')) {
+                    displayTitle = "Heart Rhythm Resonance Scan";
+                } else if (displayTitle.toLowerCase().includes('hba1c')) {
+                    displayTitle = "Equilibrium Blood Calibration";
+                } else if (displayTitle.toLowerCase().includes('note')) {
+                    displayTitle = "Advisor Guidance Note";
+                } else if (displayTitle.toLowerCase().includes('assessment')) {
+                    displayTitle = "Core System Mapping";
+                } else if (displayTitle.toLowerCase().includes('consult')) {
+                    displayTitle = "Advisory Dialogue Session";
+                } else if (displayTitle.toLowerCase().includes('call') || displayTitle.toLowerCase().includes('telehealth')) {
+                    displayTitle = "Interactive Live Session";
+                }
+
+                // Filter clinical jargon out of the description
+                displayDesc = displayDesc
+                    .replace(/prescribed/gi, 'added to daily routine')
+                    .replace(/prescription/gi, 'daily supplement')
+                    .replace(/medication/gi, 'wellness element')
+                    .replace(/mg/gi, ' units')
+                    .replace(/patient/gi, 'member')
+                    .replace(/clinical/gi, 'personal')
+                    .replace(/diagnosed/gi, 'mapped')
+                    .replace(/hypertension/gi, 'heightened flow')
+                    .replace(/diabetes/gi, 'metabolic variance');
+            }
+
+            const dateAlignClass = isLeft ? 'text-right' : 'text-left';
+
+            row.innerHTML = `
+                <!-- Bullet indicator -->
+                <div class="z-10 flex-shrink-0 w-10 h-10 rounded-full ${bulletColor} flex items-center justify-center border-4 border-background md:absolute md:left-1/2 md:-ml-5">
+                    <span class="material-symbols-outlined text-xl">${bulletIcon}</span>
+                </div>
+                
+                <!-- Date column -->
+                <div class="hidden md:flex flex-1 ${isLeft ? 'justify-end' : 'justify-start'} items-start ${dateAlignClass} pt-1">
+                    <div>
+                        <p class="font-headline-md text-on-surface text-lg font-bold">${item.date}</p>
+                        <p class="text-on-surface-variant font-label-sm">${item.time}</p>
+                    </div>
+                </div>
+
+                <!-- Card details -->
+                <div class="flex-1">
+                    <div class="p-6 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-headline-md text-on-surface text-lg font-bold mb-1">${displayTitle}</h3>
+                                <p class="text-secondary font-label-md text-body-sm">${displaySpecialty} • ${displayDoctor}</p>
+                            </div>
+                            ${alertBadgeHtml}
+                        </div>
+                        
+                        <!-- Value metrics if available (like HbA1c 7.4%) -->
+                        ${item.value ? `
+                            <div class="flex items-end gap-2 mb-4">
+                                <span class="text-3xl font-bold text-on-surface">${item.value}</span>
+                                <span class="text-body-sm text-on-surface-variant pb-1">% Equilibrium</span>
+                                <div class="ml-auto w-32 h-1.5 bg-surface-variant rounded-full overflow-hidden">
+                                    <div class="h-full bg-on-tertiary-container w-3/4"></div>
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        <p class="text-on-surface-variant font-body-md text-sm leading-relaxed">${displayDesc}</p>
+                        ${attachmentHtml}
+                    </div>
+                </div>
+            `;
+            timelineFlow.appendChild(row);
+        });
+
+        if (counter === 0) {
+            timelineFlow.innerHTML = `<p class="text-center text-on-surface-variant py-12">No records found matching this category.</p>`;
+        }
+    }
+
+    function filterTimeline(val) {
+        currentFilter = val;
+        renderTimeline();
+    }
+
+    // Modal control
+    function openNoteModal() {
+        document.getElementById('note-modal').classList.remove('hidden');
+    }
+
+    function closeNoteModal() {
+        document.getElementById('note-modal').classList.add('hidden');
+        document.getElementById('noteForm').reset();
+    }
+
+    function saveNote(event) {
+        event.preventDefault();
+        const specialty = document.getElementById('note-specialty').value;
+        const title = document.getElementById('note-title').value;
+        const desc = document.getElementById('note-desc').value;
+        
+        const success = addClinicalNote(patientId, specialty, title, desc);
+        
+        if (success) {
+            closeNoteModal();
+            renderTimeline();
+            // Show feedback
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-20 right-8 z-50 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg font-label-md flex items-center gap-2 animate-bounce';
+            toast.innerHTML = `<span class="material-symbols-outlined">check_circle</span> Clinical record successfully added`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    }
+
+    // Basic ripple action style
+    document.querySelectorAll('button, a').forEach(el => {
+        el.addEventListener('click', (e) => {
+            const ripple = document.createElement('span');
+            ripple.className = 'absolute inset-0 bg-white/20 rounded-inherit animate-ping pointer-events-none';
+            el.classList.add('relative');
+            el.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    renderTimeline();
+</script>
+</body></html>

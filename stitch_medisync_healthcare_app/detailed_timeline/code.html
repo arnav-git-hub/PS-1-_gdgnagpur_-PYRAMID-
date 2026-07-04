@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Patient Timeline - Sarah Jenkins</title>
+<!-- Google Fonts: Outfit for headlines, Public Sans for body -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;family=Public+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-secondary-fixed": "#1c0062",
+                "secondary-container": "#7858f5",
+                "secondary": "#5e3bdb",
+                "primary": "#000000",
+                "primary-container": "#0d1c32",
+                "primary-fixed-dim": "#b9c7e4",
+                "on-surface-variant": "#44474d",
+                "surface-container-highest": "#d3e4fe",
+                "on-surface": "#0b1c30",
+                "surface-container-low": "#eff4ff",
+                "surface-bright": "#f8f9ff",
+                "error": "#ba1a1a",
+                "on-primary-container": "#76849f",
+                "outline-variant": "#c5c6cd",
+                "background": "#f8f9ff",
+                "tertiary-container": "#390c00",
+                "surface": "#f8f9ff",
+                "on-primary-fixed": "#0d1c32",
+                "surface-variant": "#d3e4fe",
+                "surface-tint": "#515f78",
+                "on-primary": "#ffffff",
+                "inverse-on-surface": "#eaf1ff",
+                "on-primary-fixed-variant": "#39475f",
+                "tertiary": "#000000",
+                "on-tertiary": "#ffffff",
+                "inverse-surface": "#213145",
+                "secondary-fixed": "#e6deff",
+                "on-error-container": "#93000a",
+                "on-tertiary-fixed-variant": "#832600",
+                "on-tertiary-container": "#e25621",
+                "surface-container": "#e5eeff",
+                "secondary-fixed-dim": "#cabeff",
+                "surface-container-lowest": "#ffffff",
+                "on-background": "#0b1c30",
+                "surface-container-high": "#dce9ff",
+                "primary-fixed": "#d6e3ff",
+                "inverse-primary": "#b9c7e4",
+                "on-secondary-fixed-variant": "#481bc6",
+                "error-container": "#ffdad6",
+                "tertiary-fixed": "#ffdbd0",
+                "on-secondary-container": "#fffbff",
+                "outline": "#75777e",
+                "tertiary-fixed-dim": "#ffb59d",
+                "surface-dim": "#cbdbf5",
+                "on-secondary": "#ffffff",
+                "on-error": "#ffffff",
+                "on-tertiary-fixed": "#390c00"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "margin-desktop": "48px",
+                "container-max": "1280px",
+                "margin-tablet": "32px",
+                "gutter": "24px",
+                "margin-mobile": "16px",
+                "unit": "4px"
+            },
+            "fontFamily": {
+                "headline-lg-mobile": ["Outfit"],
+                "headline-md": ["Outfit"],
+                "body-md": ["Public Sans"],
+                "body-sm": ["Public Sans"],
+                "label-sm": ["Public Sans"],
+                "headline-lg": ["Outfit"],
+                "body-lg": ["Public Sans"],
+                "label-md": ["Public Sans"],
+                "display-lg": ["Outfit"]
+            },
+            "fontSize": {
+                "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: repeating-linear-gradient(to bottom, transparent, transparent 4px, #c5c6cd 4px, #c5c6cd 8px);
+        }
+        @media (min-width: 768px) {
+            .timeline-line::before {
+                left: 50%;
+                margin-left: -1px;
+            }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Top App Bar (Shared Component) -->
+<header class="fixed top-0 w-full z-50 backdrop-blur-md bg-surface/85 border-b border-outline-variant shadow-sm">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 max-w-container-max mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="clinical_notes">clinical_notes</span>
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md font-bold text-on-surface">MediSync</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-surface-container-high/50 transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional medical headshot of a female doctor with a kind expression, wearing a crisp white lab coat over a professional navy blouse. The lighting is bright and even, mimicking a clean hospital environment. The style is modern, clinical, and high-end, utilizing a palette of soft whites and deep medical blues." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGlvRnrvx33FKrtwg-P_yoT0EQMHH4V5gePQSwdQK8VSDhb1TAolFG04HVXUZMa4PfsXGg1RDQfMKx9kSVVUsRW2AbRW45vLh774c6bNf0AVGfrj6wAdyAg_SnkqvzyHbuw2bGyO2o9YqhEwC_IkjblgTEu0K7tEcbZJPmkZ7E_yuuLDXCoEhoVum2TbSUzeh4-wi5-LXlXeIpIX47JFw13En0A8KOl1DSLgWBSP7k7rxj7fBMj0bltQ"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Patient Hero Section -->
+<section class="mb-12 flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+<div>
+<div class="flex items-center gap-2 text-on-surface-variant mb-2">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_back">arrow_back</span>
+<span class="font-label-md text-label-md">Patient Directory</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Sarah Jenkins</h2>
+<div class="flex flex-wrap gap-3 mt-2">
+<span class="px-3 py-1 bg-surface-container-highest text-on-surface-variant rounded-full text-label-sm font-label-sm uppercase tracking-wider">Female, 42</span>
+<span class="px-3 py-1 bg-surface-container-highest text-on-surface-variant rounded-full text-label-sm font-label-sm">ID: #SJ-2941-X</span>
+<span class="px-3 py-1 bg-secondary-container/10 text-secondary border border-secondary/20 rounded-full text-label-sm font-label-sm">Critical Care</span>
+</div>
+</div>
+<!-- Filters & Actions -->
+<div class="flex flex-wrap gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-low border border-outline-variant rounded-lg text-on-surface font-label-md hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-xl" data-icon="filter_list">filter_list</span>
+                    Specialty
+                </button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-low border border-outline-variant rounded-lg text-on-surface font-label-md hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-xl" data-icon="calendar_month">calendar_month</span>
+                    Date Range
+                </button>
+<button class="flex items-center gap-2 px-6 py-2.5 bg-primary text-on-primary rounded-lg font-label-md hover:opacity-90 active:scale-95 transition-all shadow-md">
+<span class="material-symbols-outlined text-xl" data-icon="add">add</span>
+                    New Record
+                </button>
+</div>
+</section>
+<!-- Timeline Container -->
+<div class="relative timeline-line">
+<!-- Cardiology Entry -->
+<div class="relative flex flex-col md:flex-row gap-8 mb-16 group">
+<div class="z-10 flex-shrink-0 w-10 h-10 rounded-full bg-error-container flex items-center justify-center text-error border-4 border-background md:absolute md:left-1/2 md:-ml-5">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</div>
+<!-- Left side (Desktop Date) -->
+<div class="hidden md:flex flex-1 justify-end items-start text-right pr-4 pt-1">
+<div>
+<p class="font-headline-md text-on-surface">Oct 24</p>
+<p class="text-on-surface-variant font-label-sm">09:15 AM</p>
+</div>
+</div>
+<!-- Card Content -->
+<div class="flex-1">
+<div class="p-6 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm group-hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-headline-md text-on-surface mb-1">Echocardiogram</h3>
+<p class="text-secondary font-label-md">Cardiology • Dr. Aris Thorne</p>
+</div>
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant rounded text-[10px] font-bold uppercase tracking-tighter">Completed</span>
+</div>
+<p class="text-on-surface-variant font-body-md mb-4 leading-relaxed">
+                            Routine follow-up post-valve procedure. Ejection fraction remains stable at 58%. No significant valvular regurgitation noted since previous scan in August.
+                        </p>
+<div class="flex items-center gap-4 p-3 bg-surface-container-low rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="description">description</span>
+<div class="flex-1">
+<p class="font-label-sm text-on-surface">Echo_Result_SarahJ.pdf</p>
+<p class="text-[10px] text-on-surface-variant">4.2 MB • Diagnostic Image Report</p>
+</div>
+<span class="material-symbols-outlined text-secondary cursor-pointer" data-icon="download">download</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Endocrinology Entry -->
+<div class="relative flex flex-col md:flex-row-reverse gap-8 mb-16 group">
+<div class="z-10 flex-shrink-0 w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container border-4 border-background md:absolute md:left-1/2 md:-ml-5">
+<span class="material-symbols-outlined" data-icon="science">science</span>
+</div>
+<!-- Date for Mobile or Right Align Desktop -->
+<div class="hidden md:flex flex-1 justify-start items-start text-left pl-4 pt-1">
+<div>
+<p class="font-headline-md text-on-surface">Oct 18</p>
+<p class="text-on-surface-variant font-label-sm">02:30 PM</p>
+</div>
+</div>
+<!-- Card Content -->
+<div class="flex-1">
+<div class="p-6 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm group-hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-headline-md text-on-surface mb-1">Blood Test Result: HbA1c</h3>
+<p class="text-secondary font-label-md">Endocrinology • Lab Central</p>
+</div>
+<div class="flex items-center gap-1 text-on-tertiary-container bg-tertiary-fixed-dim/30 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-sm" data-icon="warning">warning</span>
+<span class="text-[10px] font-bold uppercase">Abnormal</span>
+</div>
+</div>
+<div class="flex items-end gap-2 mb-4">
+<span class="text-display-lg font-bold text-on-surface">7.4</span>
+<span class="text-body-lg text-on-surface-variant pb-2">%</span>
+<div class="ml-auto w-32 h-1.5 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-on-tertiary-container w-3/4"></div>
+</div>
+</div>
+<p class="text-on-surface-variant font-body-md leading-relaxed italic">
+                            "A significant increase from the previous baseline of 6.8%. Medication adjustment suggested for Metformin dosage."
+                        </p>
+</div>
+</div>
+</div>
+<!-- Neurology Entry -->
+<div class="relative flex flex-col md:flex-row gap-8 mb-16 group">
+<div class="z-10 flex-shrink-0 w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface border-4 border-background md:absolute md:left-1/2 md:-ml-5">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+</div>
+<div class="hidden md:flex flex-1 justify-end items-start text-right pr-4 pt-1">
+<div>
+<p class="font-headline-md text-on-surface">Oct 05</p>
+<p class="text-on-surface-variant font-label-sm">11:00 AM</p>
+</div>
+</div>
+<div class="flex-1">
+<div class="p-6 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm group-hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-headline-md text-on-surface mb-1">Initial Assessment</h3>
+<p class="text-secondary font-label-md">Neurology • Dr. Elena Vance</p>
+</div>
+<span class="px-2 py-1 bg-secondary-container/20 text-on-secondary-fixed-variant rounded text-[10px] font-bold uppercase tracking-tighter">Consultation</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-3 bg-surface-bright rounded-lg border border-outline-variant">
+<p class="text-label-sm text-on-surface-variant uppercase">Symptom Scale</p>
+<p class="font-headline-md text-on-surface">Moderate</p>
+</div>
+<div class="p-3 bg-surface-bright rounded-lg border border-outline-variant">
+<p class="text-label-sm text-on-surface-variant uppercase">Reflexes</p>
+<p class="font-headline-md text-on-surface">Normal</p>
+</div>
+</div>
+<p class="mt-4 text-on-surface-variant font-body-md leading-relaxed">
+                            Patient reports intermittent numbness in extremities. Baseline cognitive assessment score: 28/30. Scheduling MRI for further investigation of lumbar spine.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Shared Component) -->
+<nav class="fixed bottom-0 w-full z-50 backdrop-blur-md bg-surface/85 border-t border-outline-variant shadow-lg md:hidden">
+<div class="flex justify-around items-center h-20 pb-safe px-4">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-5 py-1 transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+<span class="font-label-sm text-label-sm mt-1">Timeline</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+<span class="font-label-sm text-label-sm mt-1">Alerts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm mt-1">Profile</span>
+</a>
+</div>
+</nav>
+<!-- Simple Interaction Script -->
+<script>
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('click', (e) => {
+                const ripple = document.createElement('span');
+                ripple.className = 'absolute inset-0 bg-white/20 rounded-inherit animate-ping pointer-events-none';
+                el.classList.add('relative');
+                el.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+    </script>
+</body></html>

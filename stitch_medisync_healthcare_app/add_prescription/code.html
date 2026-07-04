@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MediSync - Prescription Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Public+Sans:wght@400;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Public+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "on-secondary-fixed": "#1c0062",
+                  "secondary-container": "#7858f5",
+                  "secondary": "#5e3bdb",
+                  "primary": "#000000",
+                  "primary-container": "#0d1c32",
+                  "primary-fixed-dim": "#b9c7e4",
+                  "on-surface-variant": "#44474d",
+                  "surface-container-highest": "#d3e4fe",
+                  "on-surface": "#0b1c30",
+                  "surface-container-low": "#eff4ff",
+                  "surface-bright": "#f8f9ff",
+                  "error": "#ba1a1a",
+                  "on-primary-container": "#76849f",
+                  "outline-variant": "#c5c6cd",
+                  "background": "#f8f9ff",
+                  "tertiary-container": "#390c00",
+                  "surface": "#f8f9ff",
+                  "on-primary-fixed": "#0d1c32",
+                  "surface-variant": "#d3e4fe",
+                  "surface-tint": "#515f78",
+                  "on-primary": "#ffffff",
+                  "inverse-on-surface": "#eaf1ff",
+                  "on-primary-fixed-variant": "#39475f",
+                  "tertiary": "#000000",
+                  "on-tertiary": "#ffffff",
+                  "inverse-surface": "#213145",
+                  "secondary-fixed": "#e6deff",
+                  "on-error-container": "#93000a",
+                  "on-tertiary-fixed-variant": "#832600",
+                  "on-tertiary-container": "#e25621",
+                  "surface-container": "#e5eeff",
+                  "secondary-fixed-dim": "#cabeff",
+                  "surface-container-lowest": "#ffffff",
+                  "on-background": "#0b1c30",
+                  "surface-container-high": "#dce9ff",
+                  "primary-fixed": "#d6e3ff",
+                  "inverse-primary": "#b9c7e4",
+                  "on-secondary-fixed-variant": "#481bc6",
+                  "error-container": "#ffdad6",
+                  "tertiary-fixed": "#ffdbd0",
+                  "on-secondary-container": "#fffbff",
+                  "outline": "#75777e",
+                  "tertiary-fixed-dim": "#ffb59d",
+                  "surface-dim": "#cbdbf5",
+                  "on-secondary": "#ffffff",
+                  "on-error": "#ffffff",
+                  "on-tertiary-fixed": "#390c00"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "margin-desktop": "48px",
+                  "container-max": "1280px",
+                  "margin-tablet": "32px",
+                  "gutter": "24px",
+                  "margin-mobile": "16px",
+                  "unit": "4px"
+          },
+          "fontFamily": {
+                  "headline-lg-mobile": ["Outfit"],
+                  "headline-md": ["Outfit"],
+                  "body-md": ["Public Sans"],
+                  "body-sm": ["Public Sans"],
+                  "label-sm": ["Public Sans"],
+                  "headline-lg": ["Outfit"],
+                  "body-lg": ["Public Sans"],
+                  "label-md": ["Public Sans"],
+                  "display-lg": ["Outfit"]
+          },
+          "fontSize": {
+                  "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                  "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                  "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                  "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                  "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600"}],
+                  "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                  "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                  "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                  "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      background-color: #f8f9ff;
+      color: #0b1c30;
+      -webkit-font-smoothing: antialiased;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(226, 232, 240, 1);
+    }
+    .night-sea-btn {
+      background-color: #0d1c32; /* Night Sea primary-container variant */
+      color: #ffffff;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .night-sea-btn:hover {
+      background-color: #1a2e4a;
+      transform: translateY(-1px);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 backdrop-blur-md bg-surface/85 border-b border-outline-variant shadow-sm h-16">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-full max-w-container-max mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="clinical_notes">clinical_notes</span>
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md font-bold text-on-surface">MediSync</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-surface-container-high/50 transition-colors active:scale-95">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="search">search</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest border border-outline-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a mature male physician with a kind expression, wearing a crisp white laboratory coat and a stethoscope around his neck. The lighting is bright and even, characteristic of a high-end medical facility. The background is a soft-focus clinical environment with muted blue and grey tones, conveying a sense of expertise, trust, and calm intelligence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDG3_y7TVQwtP5fLk3FeGnVMJqJVu-qKvcreFr45f4Sl-bk0Oqs8ej5t21BFMTjZbyT-ly-vcVcU1pV0-xgpo3aK-EJRiW5R8QGALmE8ffEp7Mvzo3NUZAt98FPt-axZ9qrtxy3ct4nLK4-NmtG1ItdwaCLisTplSdzzzz7rXqIjCCXh7XoHUKy2l33eJdApRwlUagjLgV19t2cf3emENRj7PQoRM99AkfR1E4eTIHmEl-zRE1YOdxLMA"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Hero Header Section -->
+<div class="mb-8">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">Prescription Portal</h2>
+<p class="text-on-surface-variant font-body-md max-w-2xl">Issue new electronic prescriptions, monitor adherence metrics, and update clinical histories for Patient #88291.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Main Form Area (Prescription Entry) -->
+<section class="lg:col-span-8">
+<div class="glass-card rounded-xl p-6 md:p-8 shadow-sm">
+<div class="flex items-center gap-3 mb-6">
+<div class="p-2 bg-secondary-container/10 rounded-lg text-secondary">
+<span class="material-symbols-outlined" data-icon="medication">medication</span>
+</div>
+<h3 class="font-headline-md text-on-surface">New Prescription</h3>
+</div>
+<form class="space-y-6" id="prescriptionForm">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Medicine Name -->
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Medicine Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="pill">pill</span>
+<input class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none transition-all placeholder:text-outline-variant" placeholder="e.g. Lisinopril" type="text"/>
+</div>
+</div>
+<!-- Dosage -->
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Dosage</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="monitor_weight">monitor_weight</span>
+<input class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none transition-all placeholder:text-outline-variant" placeholder="e.g. 10mg" type="text"/>
+</div>
+</div>
+<!-- Frequency -->
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Frequency</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="schedule">schedule</span>
+<select class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none appearance-none transition-all">
+<option>Once daily (QD)</option>
+<option>Twice daily (BID)</option>
+<option>Three times daily (TID)</option>
+<option>Four times daily (QID)</option>
+<option>As needed (PRN)</option>
+</select>
+</div>
+</div>
+<!-- Duration -->
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Duration</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="date_range">date_range</span>
+<input class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none transition-all placeholder:text-outline-variant" placeholder="e.g. 30 days" type="text"/>
+</div>
+</div>
+</div>
+<!-- Clinical Notes -->
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Clinical Notes & Instructions</label>
+<textarea class="w-full p-4 bg-white border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none transition-all placeholder:text-outline-variant resize-none" placeholder="Include specific administration details, patient warnings, or diagnosis context..." rows="5"></textarea>
+</div>
+<div class="pt-4">
+<button class="night-sea-btn w-full md:w-auto px-10 py-4 rounded-full font-headline-md shadow-lg flex items-center justify-center gap-3" type="button">
+<span class="material-symbols-outlined" data-icon="send" style="font-variation-settings: 'FILL' 1;">send</span>
+                Save & Notify Patient
+              </button>
+</div>
+</form>
+</div>
+</section>
+<!-- Sidebar Area (Adherence & Recent History) -->
+<aside class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Adherence Score Card -->
+<div class="glass-card rounded-xl p-6 shadow-sm overflow-hidden relative">
+<div class="relative z-10">
+<h3 class="font-label-md text-on-surface-variant uppercase tracking-wider mb-4">Patient Adherence</h3>
+<div class="flex items-end gap-2 mb-2">
+<span class="font-display-lg text-display-lg text-secondary leading-none">84</span>
+<span class="text-headline-md font-bold text-on-surface-variant mb-1">%</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2.5 mb-6">
+<div class="bg-secondary h-2.5 rounded-full" style="width: 84%"></div>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-green-600" data-icon="trending_up">trending_up</span>
+<span class="font-label-sm">Above clinic average (+4%)</span>
+</div>
+</div>
+<!-- Decorative Background Element -->
+<div class="absolute -right-8 -top-8 opacity-5">
+<span class="material-symbols-outlined text-[120px]" data-icon="verified">verified</span>
+</div>
+</div>
+<!-- Recent Prescriptions -->
+<div class="glass-card rounded-xl p-6 shadow-sm">
+<h3 class="font-headline-md text-on-surface mb-4">Recent History</h3>
+<div class="space-y-4 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
+<!-- Item 1 -->
+<div class="p-4 bg-surface-bright rounded-lg border border-outline-variant/30 flex justify-between items-start">
+<div>
+<p class="font-label-md text-on-surface">Atorvastatin</p>
+<p class="text-body-sm text-on-surface-variant">20mg • Once daily</p>
+<p class="text-[10px] text-outline mt-1 font-semibold uppercase">Prescribed: 14 Oct 2023</p>
+</div>
+<span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full font-bold">ACTIVE</span>
+</div>
+<!-- Item 2 -->
+<div class="p-4 bg-surface-bright rounded-lg border border-outline-variant/30 flex justify-between items-start">
+<div>
+<p class="font-label-md text-on-surface">Metformin</p>
+<p class="text-body-sm text-on-surface-variant">500mg • Twice daily</p>
+<p class="text-[10px] text-outline mt-1 font-semibold uppercase">Prescribed: 02 Sep 2023</p>
+</div>
+<span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full font-bold">ACTIVE</span>
+</div>
+<!-- Item 3 -->
+<div class="p-4 bg-surface-bright rounded-lg border border-outline-variant/30 opacity-60 flex justify-between items-start">
+<div>
+<p class="font-label-md text-on-surface">Amoxicillin</p>
+<p class="text-body-sm text-on-surface-variant">250mg • TID</p>
+<p class="text-[10px] text-outline mt-1 font-semibold uppercase">Completed: 12 Aug 2023</p>
+</div>
+<span class="bg-surface-container-highest text-on-surface-variant text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Finished</span>
+</div>
+</div>
+<button class="w-full mt-6 py-3 border border-outline-variant text-on-surface-variant font-label-md rounded-lg hover:bg-surface-container transition-colors">
+            View Full Clinical Timeline
+          </button>
+</div>
+<!-- Quick Patient Summary -->
+<div class="bg-primary-container text-on-primary rounded-xl p-6 shadow-sm">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary-fixed-dim">
+<img class="w-full h-full object-cover" data-alt="A portrait of a senior woman with silver hair and warm, expressive eyes. She is wearing a soft teal sweater, posing in a brightly lit home environment that suggests comfort and care. The photography style is sharp but sympathetic, emphasizing her vitality and personal history within a professional healthcare context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3GpHIf8UMQbgP_p0wVv9XJUZFdRDJEW_hBTmEoQ29821TrTUQp19Aiu26UDyplyGqqNc1EhRat0Jc1R_F-Hbux2eObDzBjTGa-D1gM6IhaxIcZMm7REqV3QG0jNMKWMuIVMDciNnQaw_11Qh6c_Ull-wCTuMEDDnyiiZymkgchD1KqEpDwSmW127A3AvHfRCKzXMD-a7sPRabR3btgIlU9nz05lYhUU7OXyyCj7D_gZYktJy2NrFeqw"/>
+</div>
+<div>
+<p class="font-headline-md leading-tight">Sarah Jenkins</p>
+<p class="text-on-primary-container text-body-sm">ID: 88291 • Age: 72</p>
+</div>
+</div>
+<div class="space-y-2 border-t border-on-primary-container/20 pt-4">
+<div class="flex justify-between text-body-sm">
+<span class="opacity-70">Weight</span>
+<span class="font-semibold">68.5 kg</span>
+</div>
+<div class="flex justify-between text-body-sm">
+<span class="opacity-70">BP</span>
+<span class="font-semibold">128/84 mmHg</span>
+</div>
+<div class="flex justify-between text-body-sm">
+<span class="opacity-70">Next Visit</span>
+<span class="font-semibold text-secondary-fixed">Nov 14, 2023</span>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 backdrop-blur-md bg-surface/85 border-t border-outline-variant shadow-lg h-20 pb-safe px-4 flex justify-around items-center">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-5 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="event_note" style="font-variation-settings: 'FILL' 1;">event_note</span>
+<span class="font-label-sm mt-1">Timeline</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+<span class="font-label-sm mt-1">Alerts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm mt-1">Profile</span>
+</a>
+</nav>
+<script>
+    // Micro-interactions for form feedback
+    document.querySelectorAll('input, select, textarea').forEach(element => {
+      element.addEventListener('focus', () => {
+        element.parentElement.querySelector('.material-symbols-outlined')?.classList.add('text-secondary');
+      });
+      element.addEventListener('blur', () => {
+        element.parentElement.querySelector('.material-symbols-outlined')?.classList.remove('text-secondary');
+      });
+    });
+
+    // Simulate "Save & Notify" interaction
+    document.querySelector('.night-sea-btn').addEventListener('click', function(e) {
+      const btn = e.currentTarget;
+      const originalContent = btn.innerHTML;
+      
+      btn.innerHTML = `
+        <span class="material-symbols-outlined animate-spin" data-icon="sync">sync</span>
+        Syncing with Pharmacy...
+      `;
+      btn.classList.add('opacity-80', 'pointer-events-none');
+
+      setTimeout(() => {
+        btn.innerHTML = `
+          <span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+          Successfully Sent
+        `;
+        btn.classList.remove('night-sea-btn');
+        btn.classList.add('bg-green-600', 'text-white');
+
+        setTimeout(() => {
+          btn.innerHTML = originalContent;
+          btn.classList.add('night-sea-btn');
+          btn.classList.remove('bg-green-600', 'text-white', 'opacity-80', 'pointer-events-none');
+          document.getElementById('prescriptionForm').reset();
+        }, 2000);
+      }, 1500);
+    });
+  </script>
+</body></html>

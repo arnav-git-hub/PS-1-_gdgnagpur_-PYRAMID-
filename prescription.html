@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MediSync - Prescription Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Public+Sans:wght@400;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+    body {
+      background-color: #f8f9ff;
+      color: #0b1c30;
+      -webkit-font-smoothing: antialiased;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(226, 232, 240, 1);
+    }
+    .night-sea-btn {
+      background-color: #0d1c32; /* Night Sea primary-container variant */
+      color: #ffffff;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .night-sea-btn:hover {
+      background-color: #1a2e4a;
+      transform: translateY(-1px);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<script src="shared.js"></script>
+</head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 backdrop-blur-md bg-surface/85 border-b border-outline-variant shadow-sm h-16">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-full max-w-container-max mx-auto">
+<div class="flex items-center gap-3 cursor-pointer" onclick="location.href='doctor.html'">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="clinical_notes">clinical_notes</span>
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md font-bold text-on-surface">MediSync</h1>
+</div>
+<div class="flex items-center gap-4">
+<button onclick="location.href='doctor.html'" class="p-2 rounded-full hover:bg-surface-container-high/50 transition-colors active:scale-95">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="arrow_back">arrow_back</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest border border-outline-variant overflow-hidden">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9vkc_Rn_JbVgb9HyoFs5gZFS54hn50jHlBY2-q0Y0l2R8YDV4wRTC9_R7VKU2dN_Vx_4EMUABMhlDO9CwX6htlCoKNCK6mtl5LBo0hDg54VERIfrq7A7m0uUn2tTK3Di6CTGjpTGmWxB1aqU6Ub_kqPWCIZ_p_jDmAc9pv_V9yeheNL7i_Rse5jXX-pD71wSw-TzKueSii0aFL627zd0SdLe4EzB3ZsYJq7Gl52_aHhSBFqDzKxYJig"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Hero Header Section -->
+<div class="mb-8">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">Prescription Portal</h2>
+<p class="text-on-surface-variant font-body-md max-w-2xl">Issue new electronic prescriptions, monitor adherence metrics, and automatically check drug-drug conflicts for the patient.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Main Form Area (Prescription Entry) -->
+<section class="lg:col-span-8 space-y-6">
+<!-- Live Warning Banner (dynamically shown) -->
+<div id="realtime-warning" class="p-5 rounded-xl border flex gap-4 bg-error-container border-error/20 text-on-error-container hidden">
+  <span class="material-symbols-outlined text-3xl shrink-0 mt-0.5 text-error">warning</span>
+  <div>
+    <h4 class="font-bold text-lg leading-snug">Drug Interaction Warning</h4>
+    <p class="text-sm mt-1 opacity-90" id="conflict-desc">The medication conflicts with the patient's existing regimen.</p>
+  </div>
+</div>
+
+<div class="glass-card rounded-xl p-6 md:p-8 shadow-sm">
+<div class="flex items-center gap-3 mb-6">
+<div class="p-2 bg-secondary-container/10 rounded-lg text-secondary">
+<span class="material-symbols-outlined" data-icon="medication">medication</span>
+</div>
+<h3 class="font-headline-md text-on-surface">New Prescription</h3>
+</div>
+<form class="space-y-6" id="prescriptionForm" onsubmit="handlePrescriptionSubmit(event)">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Medicine Name -->
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Medicine Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="pill">pill</span>
+<input id="med-name" oninput="handleMedNameInput(this.value)" class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none transition-all placeholder:text-outline-variant" placeholder="e.g. Lisinopril or Warfarin" type="text" required/>
+</div>
+</div>
+<!-- Dosage -->
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Dosage</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="monitor_weight">monitor_weight</span>
+<input id="med-dosage" class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none transition-all placeholder:text-outline-variant" placeholder="e.g. 10mg" type="text" required/>
+</div>
+</div>
+<!-- Frequency -->
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Frequency</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="schedule">schedule</span>
+<select id="med-frequency" class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none appearance-none transition-all">
+<option>Once daily (QD)</option>
+<option>Twice daily (BID)</option>
+<option>Three times daily (TID)</option>
+<option>Four times daily (QID)</option>
+<option>As needed (PRN)</option>
+</select>
+</div>
+</div>
+<!-- Duration -->
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Duration</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="date_range">date_range</span>
+<input id="med-duration" class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none transition-all placeholder:text-outline-variant" placeholder="e.g. 30 days" type="text" required/>
+</div>
+</div>
+</div>
+<!-- Clinical Notes -->
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Clinical Notes & Instructions</label>
+<textarea id="med-notes" class="w-full p-4 bg-white border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none transition-all placeholder:text-outline-variant resize-none" placeholder="Include specific administration details, patient warnings, or diagnosis context..." rows="5"></textarea>
+</div>
+<div class="pt-4 flex gap-4">
+<button type="button" onclick="location.href='doctor.html'" class="px-8 py-4 border border-outline text-on-surface-variant font-label-md rounded-full hover:bg-surface-container-low transition-colors">
+  Cancel
+</button>
+<button id="submitBtn" class="night-sea-btn flex-1 py-4 rounded-full font-headline-md shadow-lg flex items-center justify-center gap-3" type="submit">
+<span class="material-symbols-outlined" data-icon="send" style="font-variation-settings: 'FILL' 1;">send</span>
+                Save & Notify Patient
+              </button>
+</div>
+</form>
+</div>
+</section>
+<!-- Sidebar Area (Adherence & Recent History) -->
+<aside class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Adherence Score Card -->
+<div class="glass-card rounded-xl p-6 shadow-sm overflow-hidden relative">
+<div class="relative z-10">
+<h3 class="font-label-md text-on-surface-variant uppercase tracking-wider mb-4">Patient Adherence</h3>
+<div class="flex items-end gap-2 mb-2">
+<span class="font-display-lg text-display-lg text-secondary leading-none">84</span>
+<span class="text-headline-md font-bold text-on-surface-variant mb-1">%</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2.5 mb-6">
+<div class="bg-secondary h-2.5 rounded-full" style="width: 84%"></div>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-green-600" data-icon="trending_up">trending_up</span>
+<span class="font-label-sm">Above clinic average (+4%)</span>
+</div>
+</div>
+<!-- Decorative Background Element -->
+<div class="absolute -right-8 -top-8 opacity-5">
+<span class="material-symbols-outlined text-[120px]" data-icon="verified">verified</span>
+</div>
+</div>
+<!-- Recent Prescriptions -->
+<div class="glass-card rounded-xl p-6 shadow-sm">
+<h3 class="font-headline-md text-on-surface mb-4">Medication History</h3>
+<div class="space-y-4 max-h-[300px] overflow-y-auto custom-scrollbar pr-2" id="prescriptions-history">
+<!-- Dynamically populated -->
+</div>
+<button onclick="location.href='timeline.html'" class="w-full mt-6 py-3 border border-outline-variant text-on-surface-variant font-label-md rounded-lg hover:bg-surface-container transition-colors">
+            View Full Clinical Timeline
+          </button>
+</div>
+<!-- Quick Patient Summary -->
+<div class="bg-primary-container text-on-primary rounded-xl p-6 shadow-sm">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary-fixed-dim shrink-0">
+<img id="patient-img" class="w-full h-full object-cover" src=""/>
+</div>
+<div>
+<p class="font-headline-md leading-tight text-white" id="patient-name">Sarah Jenkins</p>
+<p class="text-on-primary-container text-body-sm" id="patient-summary">ID: 88291 • Age: 72</p>
+</div>
+</div>
+<div class="space-y-2 border-t border-on-primary-container/20 pt-4 text-white">
+<div class="flex justify-between text-body-sm">
+<span class="opacity-70">Weight</span>
+<span class="font-semibold" id="patient-weight">68.5 kg</span>
+</div>
+<div class="flex justify-between text-body-sm">
+<span class="opacity-70">BP Baseline</span>
+<span class="font-semibold" id="patient-bp">128/84 mmHg</span>
+</div>
+<div class="flex justify-between text-body-sm">
+<span class="opacity-70">Blood Type</span>
+<span class="font-semibold" id="patient-blood">O Positive</span>
+</div>
+<div class="flex justify-between text-body-sm text-red-200">
+<span class="opacity-70">Allergies</span>
+<span class="font-semibold" id="patient-allergies">None</span>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 backdrop-blur-md bg-surface/85 border-t border-outline-variant shadow-lg h-20 pb-safe px-4 flex justify-around items-center">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1" href="doctor.html">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1" href="timeline.html">
+<span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+<span class="font-label-sm mt-1">Timeline</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1" href="alerts.html">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+<span class="font-label-sm mt-1">Alerts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1" href="index.html">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-sm mt-1">Logout</span>
+</a>
+</nav>
+
+<script>
+    const patientId = getActivePatientId();
+    const patient = getPatient(patientId);
+
+    // Populate patient profile details
+    document.getElementById('patient-name').innerText = patient.name;
+    document.getElementById('patient-summary').innerText = `ID: #${patient.id} • Age: ${patient.age} / ${patient.gender}`;
+    document.getElementById('patient-weight').innerText = patient.weight;
+    document.getElementById('patient-bp').innerText = patient.bp;
+    document.getElementById('patient-blood').innerText = patient.bloodType;
+    document.getElementById('patient-allergies').innerText = patient.allergies ? patient.allergies.join(', ') : 'None';
+    document.getElementById('patient-img').src = patient.image;
+
+    // Load active prescriptions list in history
+    function renderHistory() {
+        const historyContainer = document.getElementById('prescriptions-history');
+        historyContainer.innerHTML = '';
+        patient.prescriptions.forEach(p => {
+            const row = document.createElement('div');
+            row.className = 'p-4 bg-surface-bright rounded-lg border border-outline-variant/30 flex justify-between items-start';
+            
+            const badgeClass = p.status === 'ACTIVE' ? 'bg-green-100 text-green-700' : 'bg-surface-container-highest text-on-surface-variant';
+            
+            row.innerHTML = `
+                <div>
+                <p class="font-label-md text-on-surface">${p.name}</p>
+                <p class="text-body-sm text-on-surface-variant">${p.dosage} • ${p.frequency}</p>
+                <p class="text-[10px] text-outline mt-1 font-semibold uppercase">${p.status === 'ACTIVE' ? 'Prescribed' : 'Completed'}: ${p.date}</p>
+                </div>
+                <span class="${badgeClass} text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">${p.status}</span>
+            `;
+            historyContainer.appendChild(row);
+        });
+    }
+
+    // Live conflict checking
+    function handleMedNameInput(val) {
+        const warningBanner = document.getElementById('realtime-warning');
+        const conflictDesc = document.getElementById('conflict-desc');
+
+        if (!val || val.length < 2) {
+            warningBanner.classList.add('hidden');
+            return;
+        }
+
+        const result = checkConflict(patientId, val);
+        if (result.conflict) {
+            warningBanner.classList.remove('hidden');
+            if (result.isAllergy) {
+                warningBanner.className = "p-5 rounded-xl border flex gap-4 bg-error-container border-error/20 text-on-error-container border-l-8 border-l-red-600";
+                conflictDesc.innerHTML = `<span class="font-bold text-red-700">⚠️ CRITICAL PATIENT ALLERGY:</span> ${val} triggers the patient's documented allergy to <span class="font-bold">${result.med}</span>.<br>${result.msg}`;
+            } else if (result.severity === 'error') {
+                warningBanner.className = "p-5 rounded-xl border flex gap-4 bg-error-container border-error/20 text-on-error-container";
+                conflictDesc.innerHTML = `<span class="font-bold">CRITICAL CONFLICT:</span> ${val} interacts severely with active medication <span class="font-bold">${result.med}</span>.<br>${result.msg}`;
+            } else {
+                warningBanner.className = "p-5 rounded-xl border flex gap-4 bg-tertiary-fixed border-on-tertiary-container/10 text-on-tertiary-fixed-variant";
+                conflictDesc.innerHTML = `<span class="font-bold">WARNING:</span> ${val} has a moderate interaction with active medication <span class="font-bold">${result.med}</span>.<br>${result.msg}`;
+            }
+        } else {
+            warningBanner.classList.add('hidden');
+        }
+    }
+
+    // Submit prescription
+    function handlePrescriptionSubmit(event) {
+        event.preventDefault();
+        const med = document.getElementById('med-name').value;
+        const dosage = document.getElementById('med-dosage').value;
+        const freq = document.getElementById('med-frequency').value;
+        const duration = document.getElementById('med-duration').value;
+        const notes = document.getElementById('med-notes').value;
+
+        const btn = document.getElementById('submitBtn');
+        const originalContent = btn.innerHTML;
+        
+        btn.innerHTML = `
+          <span class="material-symbols-outlined animate-spin" data-icon="sync">sync</span>
+          Syncing with Pharmacy...
+        `;
+        btn.classList.add('opacity-80', 'pointer-events-none');
+
+        setTimeout(() => {
+            // Save prescription
+            addPrescription(patientId, med, dosage, freq, duration, notes);
+
+            btn.innerHTML = `
+              <span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+              Successfully Sent
+            `;
+            btn.classList.remove('night-sea-btn');
+            btn.classList.add('bg-green-600', 'text-white');
+
+            setTimeout(() => {
+                window.location.href = "doctor.html";
+            }, 1200);
+        }, 1500);
+    }
+
+    // Micro-interactions for form feedback
+    document.querySelectorAll('input, select, textarea').forEach(element => {
+      element.addEventListener('focus', () => {
+        element.parentElement.querySelector('.material-symbols-outlined')?.classList.add('text-secondary');
+      });
+      element.addEventListener('blur', () => {
+        element.parentElement.querySelector('.material-symbols-outlined')?.classList.remove('text-secondary');
+      });
+    });
+
+    renderHistory();
+</script>
+</body></html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MediSync - Notifications</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#0F172A",
+                        secondary: "#334155",
+                        surface: "#F8FAFC",
+                        "on-surface": "#0F172A",
+                        "on-surface-variant": "#64748B",
+                        "surface-container-high": "#F1F5F9",
+                        "primary-container": "#E2E8F0",
+                        "on-primary-container": "#0F172A",
+                        "secondary-container": "#E2E8F0",
+                        "on-secondary-container": "#1E293B",
+                        "outline": "#CBD5E1",
+                        "outline-variant": "#E2E8F0",
+                        "error": "#B91C1C",
+                        "on-error": "#FFFFFF",
+                        "success": "#15803D",
+                        "warning": "#B45309",
+                        "info": "#0369A1",
+                        "inverse-surface": "#1E293B",
+                        "inverse-on-surface": "#F8FAFC"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "headline": ["Public Sans"],
+                        "display": ["Public Sans"],
+                        "body": ["Public Sans"],
+                        "label": ["Public Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .status-pill {
+            @apply px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider;
+        }
+        .night-sea-gradient {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 backdrop-blur-md bg-surface/85 border-b border-outline-variant shadow-sm">
+<div class="flex justify-between items-center px-6 md:px-12 h-16 max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="clinical_notes">clinical_notes</span>
+<h1 class="font-headline text-xl md:text-2xl font-bold text-on-surface">MediSync</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined p-2 rounded-full hover:bg-surface-container-high/50 transition-colors active:scale-95" data-icon="search">search</button>
+<div class="w-10 h-10 rounded-full bg-primary overflow-hidden border-2 border-primary-container">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a healthcare professional with a warm smile, wearing a modern charcoal grey medical scrub. The lighting is soft and directional, typical of a high-end editorial shoot, set against a clean, minimalist off-white architectural background. The overall aesthetic is trustworthy, clean, and highly professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNmvQONBPNcMo5uK4nRnMRlcQs1roYcNNxNRf2_oGEgDWcLU07A0NskZzDXWv9KGB_X_C_cEfUIoCA1izHi-hktbOb7dpo8O-FzjGX_t9eRI-bnF1AAveiCjQiR2-4aJ38qWsMmQFzFUMnxLmV-v-F0sPCYVxg2GpQDUdyHT8iE0huF7Kx46UZiLALSxb6kXptScY7qiYklIbVnslw9MTF6jk9IejCMD_RXgzU-nSr_bz_bDXyaNjw3w"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 min-h-screen px-4 md:px-8 max-w-4xl mx-auto">
+<!-- Header Section -->
+<div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="text-3xl font-bold tracking-tight text-primary">Alerts & Updates</h2>
+<p class="text-on-surface-variant mt-1">Review critical system activities and patient updates.</p>
+</div>
+<button class="flex items-center gap-2 text-sm font-semibold text-primary px-4 py-2 rounded-xl bg-primary-container/50 hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="done_all">done_all</span>
+                Mark all as read
+            </button>
+</div>
+<!-- Alerts Content: Night Sea Layout -->
+<div class="space-y-4">
+<!-- Critical Conflict -->
+<div class="group relative bg-white border border-outline-variant rounded-2xl p-5 shadow-sm hover:shadow-md transition-all active:scale-[0.99] border-l-4 border-l-error">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-error/10 flex items-center justify-center text-error shrink-0">
+<span class="material-symbols-outlined text-3xl" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-lg text-primary truncate">Critical Conflict</h3>
+<span class="text-xs text-on-surface-variant font-medium">2m ago</span>
+</div>
+<p class="text-secondary mt-1 leading-relaxed">Drug-to-drug interaction detected for Patient #8842. Immediate review required for Warfarin and Aspirin prescription.</p>
+<div class="mt-4 flex flex-wrap gap-2">
+<button class="px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-slate-800 transition-colors">Review Conflict</button>
+<button class="px-4 py-2 border border-outline text-secondary text-sm font-semibold rounded-lg hover:bg-surface-container-high transition-colors">Dismiss</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Clinical Update -->
+<div class="group relative bg-white border border-outline-variant rounded-2xl p-5 shadow-sm hover:shadow-md transition-all active:scale-[0.99] border-l-4 border-l-info">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-info/10 flex items-center justify-center text-info shrink-0">
+<span class="material-symbols-outlined text-3xl" data-icon="lab_research">lab_research</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-lg text-primary truncate">Clinical Update</h3>
+<span class="text-xs text-on-surface-variant font-medium">45m ago</span>
+</div>
+<p class="text-secondary mt-1 leading-relaxed">New lab results uploaded for <span class="font-semibold text-primary">Esther Howard</span>. Biochemistry panel is ready for verification.</p>
+<div class="mt-4 flex items-center gap-4">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-white bg-slate-200"></div>
+<div class="w-6 h-6 rounded-full border-2 border-white bg-slate-300"></div>
+</div>
+<span class="text-xs text-on-surface-variant">Shared with Hematology Dept</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Upcoming Reminder -->
+<div class="group relative bg-white border border-outline-variant rounded-2xl p-5 shadow-sm hover:shadow-md transition-all active:scale-[0.99] border-l-4 border-l-warning">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-warning/10 flex items-center justify-center text-warning shrink-0">
+<span class="material-symbols-outlined text-3xl" data-icon="schedule">schedule</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-lg text-primary truncate">Upcoming Reminder</h3>
+<span class="text-xs text-on-surface-variant font-medium">2h ago</span>
+</div>
+<p class="text-secondary mt-1 leading-relaxed">Telemedicine session with <span class="font-semibold text-primary">Robert Fox</span> starting in 15 minutes. Ensure connectivity.</p>
+<div class="mt-3">
+<a class="text-primary text-sm font-bold flex items-center gap-1 hover:underline" href="#">
+                                Open Patient Record
+                                <span class="material-symbols-outlined text-sm" data-icon="open_in_new">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Medication Log -->
+<div class="group relative bg-white border border-outline-variant rounded-2xl p-5 shadow-sm hover:shadow-md transition-all active:scale-[0.99] border-l-4 border-l-success">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-success/10 flex items-center justify-center text-success shrink-0">
+<span class="material-symbols-outlined text-3xl" data-icon="medication">medication</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-lg text-primary truncate">Medication Log</h3>
+<span class="text-xs text-on-surface-variant font-medium">Yesterday</span>
+</div>
+<p class="text-secondary mt-1 leading-relaxed">Patient adherence report for <span class="font-semibold text-primary">Bessie Cooper</span> indicates 100% compliance over the last 7 days.</p>
+</div>
+<div class="bg-success/5 px-2 py-1 rounded text-success text-[10px] font-bold">STABLE</div>
+</div>
+</div>
+<!-- System Sync -->
+<div class="group relative bg-slate-100/50 border border-dashed border-outline rounded-2xl p-5 transition-all opacity-80">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-slate-200 flex items-center justify-center text-slate-500 shrink-0">
+<span class="material-symbols-outlined text-3xl" data-icon="sync">sync</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-lg text-secondary truncate">System Sync</h3>
+<span class="text-xs text-on-surface-variant font-medium">Yesterday</span>
+</div>
+<p class="text-on-surface-variant mt-1 leading-relaxed italic">Cloud database successfully synchronized with regional server cluster (US-EAST-1).</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Load More / Empty State Spacer -->
+<div class="mt-12 text-center">
+<button class="text-on-surface-variant text-sm font-medium hover:text-primary transition-colors py-2 px-6 border border-outline rounded-full">
+                View Older Notifications
+            </button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 backdrop-blur-md bg-surface/85 border-t border-outline-variant shadow-lg md:hidden">
+<div class="flex justify-around items-center h-20 pb-safe px-4">
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 transition-colors active:scale-90">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-[10px] mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 transition-colors active:scale-90">
+<span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+<span class="font-label-sm text-[10px] mt-1">Timeline</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-5 py-1 active:scale-90">
+<span class="material-symbols-outlined" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="font-label-sm text-[10px] mt-1">Alerts</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 transition-colors active:scale-90">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-[10px] mt-1">Profile</span>
+</button>
+</div>
+</nav>
+<!-- Desktop Sidebar/Nav (Manual addition for complete UX) -->
+<div class="hidden md:flex fixed left-0 top-16 bottom-0 w-24 flex-col items-center py-8 gap-8 border-r border-outline-variant bg-surface/50">
+<button class="w-12 h-12 flex items-center justify-center rounded-2xl hover:bg-surface-container-high transition-colors" title="Home">
+<span class="material-symbols-outlined text-secondary" data-icon="home">home</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center rounded-2xl hover:bg-surface-container-high transition-colors" title="Timeline">
+<span class="material-symbols-outlined text-secondary" data-icon="event_note">event_note</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center rounded-2xl bg-secondary text-white shadow-md transition-all scale-110" title="Alerts">
+<span class="material-symbols-outlined" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center rounded-2xl hover:bg-surface-container-high transition-colors" title="Settings">
+<span class="material-symbols-outlined text-secondary" data-icon="settings">settings</span>
+</button>
+</div>
+<script>
+        // Micro-interaction for notification items
+        document.querySelectorAll('.group').forEach(item => {
+            item.addEventListener('click', function() {
+                // Flash effect
+                this.classList.add('bg-primary-container/20');
+                setTimeout(() => {
+                    this.classList.remove('bg-primary-container/20');
+                }, 300);
+            });
+        });
+
+        // Sticky header opacity on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-md');
+                header.classList.remove('shadow-sm');
+            } else {
+                header.classList.add('shadow-sm');
+                header.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body></html>
