@@ -4,7 +4,9 @@
   "description": "MediSync Client-Side Healthcare Dashboard Application",
   "main": "index.html",
   "scripts": {
-    "start": "http-server -p 3000 -o"
+    "start": "http-server -a 127.0.0.1 -p 4000 -o",
+    "dev": "http-server -a 127.0.0.1 -p 4000 -o",
+    "ddev": "http-server -a 127.0.0.1 -p 4000 -o"
   },
   "keywords": [],
   "author": "",
